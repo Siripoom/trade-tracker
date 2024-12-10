@@ -3,6 +3,7 @@ import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/Transactions";
 import Reports from "./pages/Reports";
+import Details from "./pages/Details";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
             <Route path="/" element={<Dashboard />} />
             <Route path="/transactions" element={<Transactions />} />
             <Route path="/reports" element={<Reports />} />
+            <Route path="/details/:id" element={<Details />} />
           </Routes>
         </div>
       </div>

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -10,8 +10,52 @@ import {
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const location = useLocation(); // ใช้ useLocation เพื่อตรวจสอบ path ปัจจุบัน
+  const [isMobile, setIsMobile] = useState(false);
 
   const toggleMenu = () => setCollapsed(!collapsed);
+
+  // ตรวจสอบว่า path ปัจจุบันตรงกับ path ของเมนูไหน
+  const isActive = (path) => location.pathname === path;
+
+  // Detect screen size
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Mobile if width <= 768px
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Menu items
+  const menuItems = [
+    { path: "/", label: "Dashboard", icon: <LineChartOutlined /> },
+    { path: "/reports", label: "Reports", icon: <FileOutlined /> },
+    { path: "/logout", label: "Logout", icon: <LogoutOutlined /> },
+  ];
+
+  if (isMobile) {
+    return (
+      <div className="fixed bottom-0 w-full bg-white shadow-lg border-t border-gray-200">
+        <ul className="flex justify-around py-2">
+          {menuItems.map((item) => (
+            <li key={item.path} className="text-center">
+              <Link
+                to={item.path}
+                className={`flex flex-col items-center text-sm ${
+                  isActive(item.path) ? "text-green-500" : "text-gray-700"
+                }`}
+              >
+                {item.icon}
+                <span>{item.label}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -22,9 +66,6 @@ const Sidebar = () => {
       {/* Logo Section */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200">
         <div className="flex items-center">
-          {/* <div className="bg-green-500 text-white text-lg font-bold w-10 h-10 flex items-center justify-center rounded-full">
-            S
-          </div> */}
           {!collapsed && (
             <h2 className="ml-3 text-lg font-bold text-gray-800">Transition</h2>
           )}
@@ -39,36 +80,28 @@ const Sidebar = () => {
 
       {/* Menu Section */}
       <ul className="mt-6 space-y-2 flex-1">
-        <li
-          className={`flex items-center ${
-            collapsed ? "justify-center" : ""
-          } text-green-500 bg-green-100 rounded-md py-2 px-4`}
-        >
-          <LineChartOutlined className={`${collapsed ? "" : "mr-3"}`} />
-          <Link to="/" className="text-green-500">
-            {!collapsed && "Dashboard"}
-          </Link>
-        </li>
-        <li
-          className={`flex items-center ${
-            collapsed ? "justify-center" : ""
-          } text-gray-700 hover:bg-gray-100 rounded-md py-2 px-4`}
-        >
-          <FileOutlined className={`${collapsed ? "" : "mr-3"}`} />
-          <Link to="/reports" className="text-gray-700">
-            {!collapsed && "Reports"}
-          </Link>
-        </li>
-        <li
-          className={`flex items-center ${
-            collapsed ? "justify-center" : ""
-          } text-gray-700 hover:bg-gray-100 rounded-md py-2 px-4`}
-        >
-          <LogoutOutlined className={`${collapsed ? "" : "mr-3"}`} />
-          <Link to="/" className="text-gray-700">
-            {!collapsed && "Logout"}
-          </Link>
-        </li>
+        {menuItems.map((item) => (
+          <li
+            key={item.path}
+            className={`flex items-center ${
+              collapsed ? "justify-center" : ""
+            } rounded-md py-2 px-4 ${
+              isActive(item.path)
+                ? "bg-green-100 text-green-500"
+                : "text-gray-700 hover:bg-gray-100"
+            }`}
+          >
+            {item.icon}
+            <Link
+              to={item.path}
+              className={
+                isActive(item.path) ? "text-green-500" : "text-gray-700"
+              }
+            >
+              {!collapsed && item.label}
+            </Link>
+          </li>
+        ))}
       </ul>
 
       {/* Footer Section */}

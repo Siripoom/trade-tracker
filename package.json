@@ -7,11 +7,13 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "use-node": "nvm use || echo 'Please install NVM and run nvm use'"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.1",
     "antd": "^5.22.2",
+    "dotenv": "^16.4.7",
     "firebase": "^11.0.2",
     "firebase-tools": "^13.27.0",
     "react": "^18.3.1",
