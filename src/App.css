@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base layout for mobile screens */
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+}
+
+.container {
+  padding: 1rem;
+}
+
+/* Responsive design for small screens (มือถือ) */
+@media screen and (max-width: 768px) {
+  /* ปรับขนาด Header หรือ Sidebar */
+  .sidebar {
+    width: 100%;
+    position: relative;
+  }
+
+  .sidebar h2 {
+    font-size: 1rem;
+  }
+
+  /* ปรับการ์ดและกราฟ */
+  .card,
+  .chart-container {
+    margin: 0.5rem 0;
+    padding: 1rem;
+  }
+
+  /* ทำให้ Table เลื่อนได้ */
+  .responsive-table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    width: 100%;
+    min-width: 600px; /* กำหนดขนาดตารางขั้นต่ำ */
+  }
+
+  /* ปรับแต่งปุ่ม */
+  button {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ปรับแต่ง Section ข้อมูลผู้ใช้ */
+  .user-info {
+    text-align: center;
+    font-size: 0.9rem;
+  }
+}
+
+/* Responsive design for tablets (จอแนวตั้งขนาดกลาง) */
+@media screen and (max-width: 1024px) {
+  .chart-container {
+    height: 250px; /* ลดความสูงของกราฟ */
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  .user-info {
+    font-size: 1rem;
+  }
+
+  /* ซ่อน Sidebar สำหรับแท็บเล็ต */
+  .sidebar {
+    display: none;
+  }
+
+  /* เพิ่ม Bottom Navigation */
+  .bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+    padding: 0.5rem 0;
+  }
+
+  .bottom-nav a {
+    color: #333;
+    text-decoration: none;
+    font-size: 1rem;
+  }
+
+  .bottom-nav a.active {
+    color: #4caf50;
+  }
+}

@@ -1,30 +1,27 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Layout } from "antd";
-import Navbar from "./components/Navbar";
-
+import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/Transactions";
 import Reports from "./pages/Reports";
-
-const { Header, Content } = Layout;
+import Details from "./pages/Details";
 
 const App = () => {
   return (
     <Router>
-      <Layout>
-        <Header>
-          <Navbar />
-        </Header>
-        <Content style={{ padding: "20px" }}>
+      <div className="flex min-h-screen">
+        {/* Sidebar */}
+        <Sidebar />
+
+        {/* Content */}
+        <div className="flex-1 p-6">
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/transactions" element={<Transactions />} />
             <Route path="/reports" element={<Reports />} />
+            <Route path="/details/:id" element={<Details />} />
           </Routes>
-        </Content>
-        {/* <Footer /> */}
-      </Layout>
+        </div>
+      </div>
     </Router>
   );
 };
