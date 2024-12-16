@@ -1,3 +1,69 @@
+/* Global CSS - รองรับมือถือและ iPad */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* สำหรับ iPad และแท็บเล็ต (จอ 768px - 1024px) */
+@media screen and (max-width: 1024px) {
+  .p-6 {
+    padding: 1rem; /* ลด padding */
+  }
+
+  .text-lg {
+    font-size: 1rem; /* ลดขนาด font */
+  }
+
+  .responsive-container {
+    padding: 1rem; /* ลดขนาด padding ของ container */
+  }
+
+  .ant-table {
+    font-size: 0.9rem; /* ลดขนาดตัวอักษรในตาราง */
+  }
+
+  .ant-modal {
+    width: 90%; /* ปรับ modal ให้กว้างเต็มจอมากขึ้น */
+  }
+}
+
+/* สำหรับมือถือแนวตั้ง (จอไม่เกิน 768px) */
+@media screen and (max-width: 768px) {
+  .p-6 {
+    padding: 0.75rem; /* ลด padding ให้เล็กลง */
+  }
+
+  .text-lg {
+    font-size: 0.9rem; /* ขนาดตัวอักษรสำหรับหัวข้อ */
+  }
+
+  .text-sm {
+    font-size: 0.8rem; /* ขนาดตัวอักษรสำหรับข้อความย่อย */
+  }
+
+  .chart-container {
+    height: 200px; /* ลดความสูงของแผนภูมิ */
+  }
+
+  .w-24 {
+    width: 3rem;
+    height: 3rem; /* ลดขนาดไอคอนโปรไฟล์ */
+  }
+
+  .ant-table {
+    font-size: 0.8rem; /* ลดขนาดตัวอักษรในตาราง */
+    overflow-x: auto; /* ให้สามารถเลื่อนตารางได้ในมือถือ */
+  }
+
+  .ant-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .ant-modal {
+    width: 95%; /* Modal เต็มความกว้างของหน้าจอ */
+  }
+
+  .text-center {
+    text-align: center;
+  }
+}

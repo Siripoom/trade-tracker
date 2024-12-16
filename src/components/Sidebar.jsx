@@ -7,7 +7,7 @@ import {
   FileOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
-
+import { Menu } from "antd";
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation(); // ใช้ useLocation เพื่อตรวจสอบ path ปัจจุบัน
@@ -30,29 +30,42 @@ const Sidebar = () => {
 
   // Menu items
   const menuItems = [
-    { path: "/", label: "Dashboard", icon: <LineChartOutlined /> },
-    { path: "/reports", label: "Reports", icon: <FileOutlined /> },
-    { path: "/logout", label: "Logout", icon: <LogoutOutlined /> },
+    { path: "/", label: " Dashboard", icon: <LineChartOutlined /> },
+    { path: "/reports", label: " Reports", icon: <FileOutlined /> },
+    { path: "/logout", label: " Logout", icon: <LogoutOutlined /> },
   ];
-
+  const items = [
+    {
+      key: "/",
+      icon: <LineChartOutlined />,
+      label: <Link to="/">Dashboard</Link>,
+    },
+    {
+      key: "/reports",
+      icon: <FileOutlined />,
+      label: <Link to="/reports">Reports</Link>,
+    },
+    {
+      key: "/logout",
+      icon: <LogoutOutlined />,
+      label: <Link to="/logout">Logout</Link>,
+    },
+  ];
   if (isMobile) {
     return (
-      <div className="fixed bottom-0 w-full bg-white shadow-lg border-t border-gray-200">
-        <ul className="flex justify-around py-2">
-          {menuItems.map((item) => (
-            <li key={item.path} className="text-center">
-              <Link
-                to={item.path}
-                className={`flex flex-col items-center text-sm ${
-                  isActive(item.path) ? "text-green-500" : "text-gray-700"
-                }`}
-              >
-                {item.icon}
-                <span>{item.label}</span>
-              </Link>
-            </li>
+      <div className="fixed bottom-0 left-0 w-full bg-white shadow-md border-t border-gray-300 z-10">
+        <Menu
+          mode="horizontal"
+          selectedKeys={[location.pathname]} // แสดง active item ตาม path ปัจจุบัน
+          className="flex justify-around items-center h-16"
+          theme="light"
+        >
+          {items.map((item) => (
+            <Menu.Item key={item.key} icon={item.icon} className="text-center">
+              {item.label}
+            </Menu.Item>
           ))}
-        </ul>
+        </Menu>
       </div>
     );
   }
