@@ -51,10 +51,34 @@ const Transactions = () => {
   }, [zone]);
 
   const handleSearch = (value) => {
+    if (!value) {
+      // ถ้าไม่มีค่าค้นหา ให้แสดงข้อมูลทั้งหมด
+      const fetchData = async () => {
+        try {
+          const querySnapshot = await getDocs(collection(db, "users"));
+          const data = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          const zoneFilteredData = zone
+            ? data.filter((item) => item.zone === zone)
+            : data;
+          setFilteredData(zoneFilteredData);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchData();
+      return;
+    }
+
+    // ฟิลเตอร์ข้อมูลตามค่าค้นหา
     const filtered = filteredData.filter(
       (item) =>
-        item.name.toLowerCase().includes(value.toLowerCase()) ||
-        `${item.id}`.includes(value)
+        (item.name && item.name.toLowerCase().includes(value.toLowerCase())) || // ค้นหาจากชื่อ
+        (item.nickname &&
+          item.nickname.toLowerCase().includes(value.toLowerCase())) || // ค้นหาจากชื่อเล่น
+        (item.id && `${item.id}`.includes(value)) // ค้นหาจาก ID
     );
     setFilteredData(filtered);
   };
@@ -105,7 +129,7 @@ const Transactions = () => {
 
   const handleDelete = async (record) => {
     try {
-      await deleteDoc(doc(db, "transactions", record.id));
+      await deleteDoc(doc(db, "users", record.id));
       setFilteredData((prevData) =>
         prevData.filter((item) => item.id !== record.id)
       );
@@ -173,6 +197,13 @@ const Transactions = () => {
 
   return (
     <div className="p-6 bg-gray-50">
+      {/* Back Button */}
+      <Button
+        onClick={() => navigate(-1)}
+        className="mb-4 bg-gray-200 hover:bg-gray-300 text-gray-700"
+      >
+        Back
+      </Button>
       <h1 className="text-lg font-bold text-gray-800 mb-4">
         Transactions in Zone: {zone || "All Zones"}
       </h1>
@@ -180,7 +211,7 @@ const Transactions = () => {
       <div className="flex justify-between items-center mb-4">
         <div className="flex space-x-2 items-center">
           <Input
-            placeholder="Search"
+            placeholder="Search by Name or Nickname"
             prefix={<SearchOutlined />}
             value={searchValue}
             onChange={(e) => {
